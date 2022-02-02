@@ -10,12 +10,6 @@ The script also runs a rate limiting forward proxy but solana web3.js doesn't ob
 
 I tried ProxyChains (which has a commented out line in start.sh) but the handshake upon reaching the rpc server fails.
 
-I'm guessing these problems are both stemming from ssl issues and will attempt to (and would welcome help with) getting one of the proxy solutions working to 
+I'm guessing these problems are both stemming from ssl issues and will attempt to (and would welcome help with) getting one of the proxy solutions working to be able to rate limit requests to the rpc node. In the meantime, Genesysgo has excellent non rate limited nodes but I would ask that you only run the bot without rate limiting when there's volatility so as to not put undue stress on their cluster.
 
-be able to rate limit requests to the rpc node. In the meantime, Genesysgo has excellent non rate limited nodes but I would ask that you only run the bot
-
-without rate limiting when there's volatility so as to not put undue stress on their cluster.
-
-Additonal rate controls come from the environment variables LIQUIDATION_DELAY and USER_delay which refer to the delay between checking if a user is liquidatable
-
-and the delay to check for new users that have opened drift accounts. Both are stated in ms.
+Additonal rate controls come from the environment variables LIQUIDATION_DELAY and USER_delay which refer to the delay between checking if a user is liquidatable and the delay to check for new users that have opened drift accounts. Both are stated in ms.
