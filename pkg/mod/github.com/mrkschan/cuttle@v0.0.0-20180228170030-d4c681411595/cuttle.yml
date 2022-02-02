@@ -1,0 +1,54 @@
+# Address format from golang.org/pkg/net/http, default ':3128'.
+addr: :3128
+
+# cacert: './cert.pem'  # Optional. CA cert used for TLS between user and cuttle.
+# cakey: './key.pem'  # Optional. CA private key used for TLS between user and cuttle.
+
+# tlsverify: false  # Turn off TLS cert verification for upstream servers.
+#                   # IMPORTANT: Use this option carefully.
+
+# List of rate limit zones identified by their 'host' field.
+# 'Host' header of the HTTP request is matched with each of these 'host' fields.
+# Rate limit control of the first matched zone in the list will be applied to
+# the HTTP request.
+zones:
+  - host: "*"  # Apply to requests forwarded to all domains.
+    shared: true  # The rate limit is shared by all domains.
+    control: rps  # Use request-per-second rate limit control.
+    rate: 2  # At most 2 requests per second in the entire zone.
+
+# Example - Only throttle *.github.com and no rate limit on other domains.
+#
+# zones:
+# - host: "*.github.com"  # Apply to requests forwarded to all sub-domains of github.com.
+#   shared: false  # The rate limit is applied to each sub-domain of github.com separately.
+#   control: rps  # Use request-per-second rate limit control.
+#   rate: 3  # At most 3 requests per second forwarded per each sub-domain.
+# - host: "*"  # Apply to all requests forwarded to non- github.com.
+#   control: noop  # Use no-op control, i.e., no rate limit.
+#
+# NOTE: Default value of 'shared' is false.
+# NOTE: 'rate' is not required for noop control.
+
+
+# Example - Throttle requests by URL path under github.com.
+#
+# zones:
+# - host: "github.com"
+#   path: "/*"  # Apply to requests under github.com/, including '/'.
+#   limitby: "path"  # Limit requests by URL path, instead of host.
+#   shared: true  # The rate limit is applied to all URL paths.
+#   control: rps  # Use request-per-second rate limit control.
+#   rate: 2  # At most 2 requests per second forwarded per URL path.
+# - host: "api.github.com"
+#   path: "/users/*"  # Apply to requests under api.github.com/users/, including '/users/'.
+#   limitby: "path"  # Limit requests by URL path, instead of host.
+#   shared: false  # The rate limit is applied to each URL path separately.
+#   control: rps  # Use request-per-second rate limit control.
+#   rate: 2  # At most 2 requests per second forwarded.
+# - host: "*"  # Apply to all other requests.
+#   control: ban  # Use ban control, i.e., no request forwarded.
+#
+# NOTE: Wildcard '*' can only be applied to the field specified in 'limitby'.
+# NOTE: Default value of 'path' is '/'.
+# NOTE: Default value of 'limitby' is 'host'.

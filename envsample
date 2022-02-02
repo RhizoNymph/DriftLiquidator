@@ -1,0 +1,4 @@
+BOT_PRIVATE_KEY=
+RPC_ADDRESS='https://api.mainnet-beta.solana.com'
+LIQUIDATION_DELAY='1200000'
+USER_DELAY='10000000'
